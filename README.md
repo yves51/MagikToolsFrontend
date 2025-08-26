@@ -162,3 +162,86 @@ UI (presentation) → UseCase (domain/usecases) → Repository Interface (applic
 https://github.com/guhur/cours-react/blob/master/README.md
 
 
+
+//docker-compose.yml
+version: '3.8'
+
+services:
+  # 🚀 Backend (Node.js + Express + Sequelize)
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: always
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - DB_NAME=magiktools
+      - DB_PORT=5432
+      - PORT=3000
+    networks:
+      - proxy
+      - internal
+    expose:
+      - "3000"
+    depends_on:
+      - postgres
+
+  # 🎨 Frontend (React + Nginx)
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: always
+    networks:
+      - proxy
+    expose:
+      - "80"
+
+  # 🛢️ Base de données PostgreSQL
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: magiktools
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  # 📊 pgAdmin (UI PostgreSQL)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@planetkoncept.pro
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    networks:
+      - internal
+
+  # 🌐 Reverse Proxy (Nginx Proxy Manager)
+  nginx-proxy:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: npm
+    restart: always
+    ports:
+      - "80:80"
+      - "81:81"   # UI admin Proxy Manager
+      - "443:443"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - proxy
+
+# 🔗 Réseaux Docker
+networks:
+  proxy:
+    driver: bridge
+  internal:
+    driver: bridge
