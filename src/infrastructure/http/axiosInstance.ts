@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { getRedirectAdapter } from "../adapters/RedirectAdapter";
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_URL,
-  //   withCredentials: true,
+    withCredentials: true,
 });
 
 // Intercepteur pour ajouter automatiquement le token à chaque requête
