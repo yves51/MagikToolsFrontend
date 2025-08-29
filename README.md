@@ -185,7 +185,7 @@ services:
     expose:
       - "3000"
     depends_on:
-      - postgres
+      - pos tgres
 
   # 🎨 Frontend (React + Nginx)
   frontend:
