@@ -2,16 +2,16 @@ import { Region } from '../../../domain/entities/Region';
 import axiosInstance from "../../http/axiosInstance";
 
 // Récupérer 
-export const fetchRegions = () => axiosInstance.get<{ data: Region[] }>("/api/regions/index" );
+export const fetchRegions = () => axiosInstance.get<{ data: Region[] }>("/regions/index" );
 
 // Récupérer 
-export const fetchRegionById = (id: number) => axiosInstance.get<Region>(`/api/regions/show/${id}` );
+export const fetchRegionById = (id: number) => axiosInstance.get<Region>(`/regions/show/${id}` );
 
 // Créer 
-export const createRegion = (data: Region) => axiosInstance.post("/api/regions/store", data);
+export const createRegion = (data: Region) => axiosInstance.post("/regions/store", data);
 
 // Mettre à jour 
-export const updateRegion = (id: number, data: Region) => axiosInstance.put(`/api/regions/update/${id}`, data);
+export const updateRegion = (id: number, data: Region) => axiosInstance.put(`/regions/update/${id}`, data);
 
 // Supprimer 
-export const deleteRegion = (id: number) => axiosInstance.delete(`/api/regions/delete/${id}`, {});
+export const deleteRegion = (id: number) => axiosInstance.delete(`/regions/delete/${id}`, {});

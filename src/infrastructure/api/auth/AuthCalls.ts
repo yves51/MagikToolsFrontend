@@ -4,11 +4,11 @@ import axiosInstance from "../../http/axiosInstance";
 
 // fonction pour la connexion
 export const login = (email: string, password: string) =>
-  axios.post<LoginResponse>( process.env.REACT_APP_URL + "/api/users/login", { email, password }
+  axios.post<LoginResponse>( process.env.REACT_APP_URL + "/users/login", { email, password }
   );
 
 // detail utilisateur connecté 
-export const detailUserConnect = () => axiosInstance.get<{ data: User[] }>("/api/utilisateurs/information" );
+export const detailUserConnect = () => axiosInstance.get<{ data: User[] }>("/utilisateurs/information" );
 
 
 export function handleUnauthorized() {
@@ -16,18 +16,18 @@ export function handleUnauthorized() {
 }
 
 export const changePassword = async (data: ResetPassword): Promise<string> => {
-  const response = await axiosInstance.put('/api/auth/change-password', data, {});
+  const response = await axiosInstance.put('/auth/change-password', data, {});
   return response.data.message;
 };
 
 export const updateProfile = async (data: UpdateDataUser): Promise<string> => {
-  const response = await axiosInstance.put('/api/auth/update', data, {});
+  const response = await axiosInstance.put('/auth/update', data, {});
   return response.data.message;
 };
 
 export const updatePhotoProfile = async (data: UserPhoto): Promise<string> => {
   const formData = new FormData();
   formData.append("photo", data.photo);
-  const response = await axiosInstance.post('/api/auth/uploadPhoto', formData, {});
+  const response = await axiosInstance.post('/auth/uploadPhoto', formData, {});
   return response.data.message;
 };
